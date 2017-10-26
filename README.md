@@ -7,4 +7,5 @@ By just one line code as the following, you can leverage the cutting edage deep 
 from wukong.computer_vision.TransferLearning import *
 
 create_default_deep_vision_model(work_dir=r'../../tmp', model_name="cat_dog", 
-                                 train_data_dir=r'../../samples/cat_dog/train/', test_data_dir=r'../../samples/cat_dog/test')
+                                 train_data_dir=r'../../samples/cat_dog/train/', 
+                                 test_data_dir=r'../../samples/cat_dog/test')
