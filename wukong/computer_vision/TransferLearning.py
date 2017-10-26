@@ -41,12 +41,11 @@ def extract_features_of_samples( model, target_width, target_height, data_dir, f
         if os.path.isdir(fullname):
             for img_file in os.listdir(fullname):
                 img_file_fullname = os.path.join(fullname, img_file)
-                print (img_file_fullname)
                 feature = extract_feature(model, target_width, target_height, img_file_fullname)
                 features.append(feature)
                 feature_labels.append(category_id)
-            category_id = category_id + 1
             print("ID:{%d} represents {%s}" % (category_id, file_name))
+            category_id = category_id + 1
     np.save(open(features_file_name, 'w'),
             np.array(features))
     np.save(open(features_file_name + ".label", 'w'),
@@ -141,14 +140,14 @@ def create_deep_vision_model( work_dir, model_name, pretrained_model, top_model,
                               ):
     bottlebeck_features_file_name = os.path.join(work_dir, model_name + ".bottlebeck_features")
     top_model_weights_file_name = os.path.join(work_dir, model_name + ".top_weights")
-    print os.path.exists(bottlebeck_features_file_name)
     if not (os.path.exists(bottlebeck_features_file_name + ".test.label")):
+        print ("Preparing the data for training top layer ...")
         extract_features_of_samples(pretrained_model, img_width, img_height, train_data_dir,
                                     bottlebeck_features_file_name + ".train")
         extract_features_of_samples(pretrained_model, img_width, img_height, validation_data_dir,
                                     bottlebeck_features_file_name + ".test")
 
-    print "Top layer training samples have been created!"
+    print "Top layer training data have been created!"
     num_of_training_samples, num_of_validation_samples = train_top_model(top_model, bottlebeck_features_file_name,
                                                                          top_model_weights_file_name,
                                                                          top_training_batch_size, top_training_epochs)

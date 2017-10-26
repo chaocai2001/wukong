@@ -1,0 +1,1 @@
+This directory is for storing temporary files when running demo/test programs.
