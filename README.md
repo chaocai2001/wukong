@@ -9,3 +9,5 @@ from wukong.computer_vision.TransferLearning import *
 create_default_deep_vision_model(work_dir=r'../../tmp', model_name="cat_dog", 
                                  train_data_dir=r'../../samples/cat_dog/train/', 
                                  test_data_dir=r'../../samples/cat_dog/test')
+
+[Natural Language Understanding is coming soon]
