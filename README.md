@@ -1,6 +1,6 @@
-#Machine learning and deep learning are not the weapons just for the scientists. 
+# Machine learning and deep learning are not the weapons just for the scientists. 
 
-##Wukong is the library to make you leverage machine learning/deep learning techiques easily and quickly.
+## Wukong is the library to make you leverage machine learning/deep learning techiques easily and quickly.
 
 By just several line codes as the following, you can leverage the cutting edage deep learning technique--transfering learning to build a good image classification model, which can get amazing performance even training with a very little of samples.
 ```Python
