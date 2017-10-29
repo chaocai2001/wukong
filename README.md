@@ -1,6 +1,6 @@
-Machine learning and deep learning are not the weapons just for the scientists. 
+#Machine learning and deep learning are not the weapons just for the scientists. 
 
-Wukong is the library to make you leverage machine learning/deep learning techiques easily and quickly.
+##Wukong is the library to make you leverage machine learning/deep learning techiques easily and quickly.
 
 By just several line codes as the following, you can leverage the cutting edage deep learning technique--transfering learning to build a good image classification model, which can get amazing performance even training with a very little of samples.
 ```Python
@@ -47,6 +47,7 @@ Transfer learning is to leverage the DNN’s feature extracting capability to ha
 * Train the new top layers
 * Tune the new DNN finely 
 ![image](https://github.com/chaocai2001/wukong/blob/master/docs/transfer_learning_pics/Slide4.jpg)
+
 Wukong is a library, which encapsulate the transfer learning process. With the libraray, it is quite easy to practice transfer learning, you just need to pass your pretrained DNN model and top model to Wukong, and then Wukong would take over all of the left jobs. 
 Even, you can leverage the default pretrained model and top model in Wukong, the default model works very well for many image classification problems. 
 
