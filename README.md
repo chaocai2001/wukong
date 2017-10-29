@@ -40,7 +40,7 @@ Transfer learning is to address the above problem. Transfer learning is about re
 ## Why transfer learning works?
 Like CNN, the lower layers of convolutional neural networks have long been known to resemble conventional computer vision features like edge detectors and Gabor filters. And the top hidden layers are specialized to the task it was trained for.
 Transfer learning is to leverage the DNN’s feature extracting capability to handle new problems. By replacing the original top layers with the new top layers, the reconstructed DNN would be used to handle the new task. And by leveraging the feature extracting capability of the trained layers, only very small amount of labeled data is needed to train the new top layers and tune the trained DNN finely for the new task
-![This is a title]()
+![image](https://github.com/chaocai2001/wukong/blob/master/docs/transfer_learning_pics/Slide3.jpg)
 ## How to use transfer learning?
 * Remove the top layer of the original DNN
 * Build the new top layers on the original DNN
