@@ -1,8 +1,22 @@
-from wukong.computer_vision.TransferLearning import *
+import os
+
+from wukong.computer_vision.TransferLearning import WuKongVisionModel
 
 train_data_dir = r'../../samples/cat_dog/train/'
 test_data_dir = r'../../samples/cat_dog/test'
 work_dir = r'../../tmp'
-model_name = "cat_dog"
+task_name = "cat_dog"
 
-create_default_deep_vision_model(work_dir, model_name, train_data_dir, test_data_dir)
+# train a model with the default configuration
+model = WuKongVisionModel()
+model.train_for_new_task(work_dir, task_name, train_data_dir, test_data_dir)
+
+# predict by the trained model
+ret = model.predict(os.path.join(test_data_dir, "cat", "cat.983.jpg"))
+print ret
+
+# You can load the weights to the model
+new_model = WuKongVisionModel()
+new_model.load_weights(os.path.join(work_dir, 'cat_dog.combined_model_weights-best.hdf5'))
+ret = new_model.predict(os.path.join(test_data_dir, "cat", "cat.983.jpg"))
+print ret
