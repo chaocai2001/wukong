@@ -46,7 +46,7 @@ Transfer learning is to leverage the DNN’s feature extracting capability to ha
 * Build the new top layers on the original DNN
 * Train the new top layers
 * Tune the new DNN finely 
-
+![image](https://github.com/chaocai2001/wukong/blob/master/docs/transfer_learning_pics/Slide4.jpg)
 Wukong is a library, which encapsulate the transfer learning process. With the libraray, it is quite easy to practice transfer learning, you just need to pass your pretrained DNN model and top model to Wukong, and then Wukong would take over all of the left jobs. 
 Even, you can leverage the default pretrained model and top model in Wukong, the default model works very well for many image classification problems. 
 
