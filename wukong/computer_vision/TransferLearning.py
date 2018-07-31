@@ -66,7 +66,7 @@ class WuKongVisionModel:
     def _refactor_pretrained_model( self ):
         for layer in self._pretrained_model.layers[:self._num_of_frozen_layers]:
             layer.trainable = False
-            self._combined_model = Model(self._pretrained_model.input,
+        self._combined_model = Model(self._pretrained_model.input,
                                          self._top_model(self._pretrained_model.output))
 
     def _preprocess_image_file( self, img_file ):
@@ -159,12 +159,13 @@ class WuKongVisionModel:
 
         self._combined_model.fit_generator(
             train_generator,
-            samples_per_epoch=self._num_of_training_samples,
-            nb_epoch=epochs,
+            steps_per_epoch = self._num_of_training_samples // batch_size,
+            #samples_per_epoch=self._num_of_training_samples,
+            epochs=epochs,
             validation_data=validation_generator,
-            nb_val_samples=self._num_of_validation_samples,
-            callbacks=[checkpoint, monitor]
-            # validation_steps=nb_validation_samples // batch_size
+            #nb_val_samples=self._num_of_validation_samples,
+            callbacks=[checkpoint, monitor],
+            validation_steps=self._num_of_validation_samples // batch_size
         )
 
     def train_for_new_task( self, work_dir, task_name,
