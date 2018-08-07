@@ -24,8 +24,9 @@ Contact me: chaocai2001@icloud.com
 class WuKongVisionModel:
     """
         Encapsulate the transfer learning training process.
-        Given top model and pretrained model, the class would train a new combined model for new task
-        with the typical transfer learning process.
+        Given top model and pretrained model, the class would
+        train a new combined model for new task with the typical
+        transfer learning process.
     """
 
     def __init__( self, target_width=224, target_height=224, pretrained_model=None, top_model=None,
@@ -78,6 +79,24 @@ class WuKongVisionModel:
     def _extract_feature( self, img_file ):
         return self._pretrained_model.predict(self._preprocess_image_file(img_file))[0]
 
+    def _count_samples( self, data_dir):
+        cnt_samples = 0
+        category_id = 0
+        features = []
+        feature_labels = []
+        for file_name in os.listdir(data_dir):
+            fullname = os.path.join(data_dir, file_name)
+            if os.path.isdir(fullname):
+                for img_file in os.listdir(fullname):
+                    cnt_samples = cnt_samples + 1
+                print("ID:%d represents %s" % (category_id, file_name))
+                category_id = category_id + 1
+        return cnt_samples
+
+    def _prepare_improvement_training(self, train_data_dir,validation_data_dir):
+        self._num_of_training_samples = self._count_samples(train_data_dir)
+        self._num_of_validation_samples = self._count_samples(validation_data_dir)
+
     def _extract_features_of_samples( self, data_dir, features_file_name ):
         category_id = 0
         features = []
@@ -119,6 +138,7 @@ class WuKongVisionModel:
                             nb_epoch=epochs,
                             batch_size=batch_size,
                             validation_data=(validation_data, validation_labels),
+                            shuffle=False,
                             callbacks=[checkpoint, monitor, history])
         self._top_model.load_weights(check_filepath)
         self._top_model.compile(optimizer="rmsprop",
@@ -154,7 +174,7 @@ class WuKongVisionModel:
             class_mode=class_mode)
 
         monitor = EarlyStopping(monitor='acc', min_delta=0.001, patience=6, verbose=0, mode='max')
-        check_filepath = combined_model_weights_file + ".best.hdf5"
+        check_filepath = combined_model_weights_file + "acc{acc:.2f}_" + "val_acc{val_acc:.2f}" + ".best.hdf5"
         checkpoint = ModelCheckpoint(check_filepath, monitor='val_acc', verbose=1, save_best_only=True, mode='max')
 
         self._combined_model.fit_generator(
@@ -193,6 +213,21 @@ class WuKongVisionModel:
         self._refactor_pretrained_model()
         combined_model_weights_file_name = work_dir + "/" + task_name + ".combined_model_weights"
 
+        self._fine_tune(epochs=fine_tuning_epochs, batch_size=fine_tuning_batch_size,
+                        train_data_dir=train_data_dir, validation_data_dir=validation_data_dir,
+                        combined_model_weights_file=combined_model_weights_file_name,
+                        class_mode=class_mode, loss=loss, optimizer=optimizer)
+        print ("Fine tuning is done!")
+
+    def train_for_improvement_task( self, work_dir, task_name,
+                        train_data_dir,
+                        validation_data_dir,
+                        fine_tuning_batch_size=16, fine_tuning_epochs=50,
+                        class_mode='binary', loss='binary_crossentropy',
+                        optimizer=optimizers.SGD(lr=3e-5, momentum=0.9)
+                        ):
+        combined_model_weights_file_name = work_dir + "/" + task_name + ".combined_model_weights"
+        self._prepare_improvement_training(train_data_dir,validation_data_dir)
         self._fine_tune(epochs=fine_tuning_epochs, batch_size=fine_tuning_batch_size,
                         train_data_dir=train_data_dir, validation_data_dir=validation_data_dir,
                         combined_model_weights_file=combined_model_weights_file_name,
