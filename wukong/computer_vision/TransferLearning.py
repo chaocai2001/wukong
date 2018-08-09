@@ -138,7 +138,6 @@ class WuKongVisionModel:
                             nb_epoch=epochs,
                             batch_size=batch_size,
                             validation_data=(validation_data, validation_labels),
-                            shuffle=False,
                             callbacks=[checkpoint, monitor, history])
         self._top_model.load_weights(check_filepath)
         self._top_model.compile(optimizer="rmsprop",
